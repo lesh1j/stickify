@@ -1,23 +1,19 @@
-import { sql } from '@vercel/postgres'
 import Image from "next/image";
 import styles from "./page.module.css";
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+
 
 export default async function Home() {
-   let data;
-
-   try {
-      data = await sql`SELECT * FROM users`;
-   } catch (e: any) {
-      throw e;
-   }
-
-   const { rows: users } = data;
+   const users = await prisma.users.findMany()
 
    return (
       <main className={styles.main}>
          <div>
             {users.map((user) => (
-               <li key={user.name}>{user.name}</li>
+               <li key={user.name}>{user.name} ddd</li>
             ))}
          </div>
          <div className={styles.description}>
